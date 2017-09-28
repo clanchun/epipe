@@ -17,12 +17,12 @@
 
 parse_transform(AST, _Options) ->
     put(?PIPE_NAME_CNT, 0),
-    NewAST = lists:reverse(walk_ast(AST, [])),
+    NewAST = walk_ast(AST, []),
     erase(?PIPE_NAME_CNT),
     NewAST.
 
 walk_ast([], Acc) ->
-    Acc;
+    lists:reverse(Acc);
 walk_ast([{function, _, _, _, _} = Fun | T], Acc) ->
     walk_ast(T, [walk_function(Fun) | Acc]);
 walk_ast([H | T], Acc) ->
